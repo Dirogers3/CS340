@@ -4,6 +4,8 @@ INSERT INTO clients (clientFirstname, clientLastName, clientEmail, clientPasswor
 -- part 2
 UPDATE clients SET clientLevel = 3 WHERE clientEmail = "tony@starkent.com";
 
+
+
 -- part 3
 UPDATE inventory SET invDescription = REPLACE( invDescription, "small interior", "spacious interior") WHERE invMake = "GM" AND invModel = "Hummer";
 

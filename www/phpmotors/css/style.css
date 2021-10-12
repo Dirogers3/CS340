@@ -225,8 +225,19 @@ html {
   margin-bottom: 25px;
 }
 
+.loginform {
+  margin-left: 30px;
+}
 
 }
+
+
+
+
+
+
+
+
 
 
 
@@ -387,8 +398,33 @@ html {
   margin-bottom: 25px;
 }
 
+.loginform {
+  margin-left: 30px;
+}
   
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media (min-width: 850px) {
 
@@ -542,12 +578,28 @@ html {
   margin-bottom: 25px;
 }
 
-  
+.loginform {
+  margin-left: 30px;
+}  
   
   }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
 
 
@@ -708,6 +760,9 @@ li a {
   margin-bottom: 25px;
 }
 
+.loginform {
+  margin-left: 30px;
+}
 
 
 }
