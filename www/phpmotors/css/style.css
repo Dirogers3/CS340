@@ -111,7 +111,7 @@ html {
   }
   .navbar li {
     list-style: none;
-    width: 70px;
+    width: 88px;
     display:flex;
     flex-direction: row;
     justify-content: center;
@@ -229,6 +229,10 @@ html {
   margin-left: 30px;
 }
 
+.blackfont {
+  color: black;
+}
+
 }
 
 
@@ -280,7 +284,7 @@ html {
   
   .navbar li {
     list-style: none;
-    width: 70px;
+    width: 88px;
     display:flex;
     flex-direction: row;
     justify-content: center;
@@ -401,6 +405,10 @@ html {
 .loginform {
   margin-left: 30px;
 }
+
+.blackfont {
+  color: black;
+}
   
   }
 
@@ -462,7 +470,7 @@ html {
   
   .navbar li {
     list-style: none;
-    width: 70px;
+    width: 88px;
     display:flex;
     flex-direction: row;
     justify-content: center;
@@ -580,7 +588,11 @@ html {
 
 .loginform {
   margin-left: 30px;
-}  
+}
+
+.blackfont {
+  color: black;
+}
   
   }
 
@@ -643,7 +655,7 @@ body {
 
 .navbar li {
   list-style: none;
-  width: 70px;
+  width: 88px;
   display:flex;
   flex-direction: row;
   justify-content: center;
@@ -762,6 +774,12 @@ li a {
 
 .loginform {
   margin-left: 30px;
+}
+
+.blackfont {
+  color: black !important;
+  font-style: unset;
+  
 }
 
 

@@ -1,9 +1,9 @@
 <?php
 
     // Get the database connection file
-    require_once 'library/connections.php';
-    // Get the PHP Motors model for use as needed
-    require_once 'model/main-model.php';
+require_once 'library/connections.php';
+// Get the PHP Motors model for use as needed
+require_once 'model/main-model.php';
     // Get the array of classifications
 	$classifications = getClassifications();
 
@@ -28,16 +28,10 @@
     }
     switch ($action) {
         
-        case 'login':
-            $pageTitle = 'Account Login';
-            include 'view/login.php';
+        case 'template':
+            include 'view/template.php';
             break;
             
-        case 'registration':
-            $pageTitle = 'Account Registration';
-            include 'view/registration.php';
-            break;
-        
         default:
             $pageTitle = 'Home';
             include 'view/home.php';
