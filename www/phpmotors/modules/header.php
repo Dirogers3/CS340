@@ -13,5 +13,15 @@
 <body>
 <div class="logo-bar">
     <img src="/phpmotors/images/site/logo.png" alt="Logo for PHPMotors">
-    <a href="/phpmotors/accounts/?action=login"><p> My Account</p></a>
+    <?php if (isset($_SESSION['loggedin'])) {
+        if ($_SESSION['loggedin']){
+            echo "<p>Welcome <a class='header-link' href='/phpmotors/accounts/'>".$_SESSION['clientData']['clientFirstname']."</a>";
+            echo " | <a class='header-link' href='/phpmotors/accounts?action=logout'>Logout</a> </p>";
+        }
+        
+        } else{
+            echo "<a class='header-link' href='/phpmotors/accounts/?action=login'>My Account</a>";
+        }
+    ?>
+    
 </div>

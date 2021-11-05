@@ -1,4 +1,8 @@
 <?php
+//Create or access a Session
+session_start();
+
+
 require_once '../library/connections.php'; // database connection file
 require_once '../model/main-model.php'; // model file for main
 require_once '../model/vehicles-model.php'; // model file for vehicles
@@ -13,6 +17,11 @@ $classifications = getClassifications();
 
 // Build a navigation bar using the $classifications array
 $navList = buildNav($classifications);
+
+// Check if firstname cookie is exists and get its value
+if(isset($_COOKIE['firstname'])){
+    $cookieFirstname = filter_input(INPUT_COOKIE, 'firstname', FILTER_SANITIZE_STRING);
+} 
 
 
 $action = filter_input(INPUT_POST, 'action');

@@ -1,4 +1,4 @@
-<?php require './modules/header.php'?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/modules/header.php'; ?>
 <nav>
     <?php echo $navList; ?> 
 </nav>

@@ -1,4 +1,11 @@
-<?php 
+<?php
+// if the user is not logged in, the client data wouldn't exist. 
+// So we just need to check the level. 
+if ($_SESSION['clientData']['clientLevel'] < 2) {
+ header('location: /phpmotors/');
+ exit;
+}
+?><?php 
 $classificationList = '<select name="classificationId">';
 foreach ($classifications as $classification) {
     $classificationList .= "<option value='$classification[classificationId]'";

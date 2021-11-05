@@ -1,10 +1,15 @@
+<?php
+if ($_SESSION['clientData']['clientLevel'] < 2) {
+ header('location: /phpmotors/');
+ exit;
+}
+?>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/modules/header.php'; ?>
 <nav>
     <?php echo $navList; ?>
 </nav>
 <main>
     <h2>Vehicle Management</h2>
-
         <ul>
             <li>
                 <a class="blackfont" href="/phpmotors/vehicles/index.php?action=add-vehicle">Add Vehicle Page</a><br>
