@@ -135,9 +135,81 @@ session_start();
                 exit;
                 break;
 
+            case 'update':
+                $clientInfo = getClient($_SESSION['clientData']['clientEmail']);
+                $clientId = $_SESSION['clientData']['clientId'];
+                include '../view/client-update.php';
+                break;
+            case 'updateAccount':
+                $clientId = filter_input(INPUT_POST, 'clientId',FILTER_SANITIZE_NUMBER_INT);
+                $clientFirstname = filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_STRING);
+                $clientLastname = filter_input(INPUT_POST, 'clientLastname', FILTER_SANITIZE_STRING);
+                $clientEmail = filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL);
+                $clientEmail = checkEmail($clientEmail);
+                $emailCheck = checkExistingEmail($clientEmail);
+                if (empty($clientFirstname) || empty($clientLastname) || empty($clientEmail)) {
+                    $message = '<p>Please provide information for all empty form fields</p>';
+                    include '../view/client-update.php';
+                    exit;
+                }
+                if ($emailCheck) {
+                    $message = '<p>Email already exists. Please choose a different email.</p>';
+                    include '../view/client-update.php';
+                    break;
+                }
+                $updateResult = updateClient($clientFirstname,$clientLastname,$clientEmail,$clientId);
+                if ($updateResult) {
+                    $message = "$clientFirstname, your account has been successfully updated.";
+                    $_SESSION['message'] = $message;
+
+                    $clientData = getClientById($clientId);
+                    // remove password
+                    array_pop($clientData);
+
+                    $_SESSION['clientData'] = $clientData;
+                    header('Location: /phpmotors/accounts/');
+                    exit;
+                } else {
+                    $message = "<p>Sorry $clientFirstname, $updateResult account failed to update.</p>";
+                    include '../view/client-update.php';
+                    exit;
+                }
+                break;
+
+            case 'updatePassword':
+                $clientId = filter_input(INPUT_POST, 'clientId',FILTER_SANITIZE_NUMBER_INT);
+                $clientPassword = filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING);
+                $checkPassword = checkPassword($clientPassword);
+                if (empty($checkPassword)) {
+                $message = '<p>Invalid Password.</p>';
+                    include '../view/client-update.php';
+                    exit;
+                }
+                $hashedPassword = password_hash($clientPassword, PASSWORD_DEFAULT);
+                $updatePassOutcome = updatePassword($hashedPassword,$clientId);
+                if ($updatePassOutcome === 1) {
+                    $_SESSION['message'] = "Password succesfully changed!";
+                    $clientData = getClientById($clientId);
+                    // remove password
+                    array_pop($clientData);
+                    $_SESSION['clientData'] = $clientData;
+                    header('Location: /phpmotors/accounts/');
+                    exit;
+                } else {
+                    $message = "<p>Sorry $clientFirstname, but the update failed. Please try again.</p>";
+                    include '../view/client-update.php';
+                    exit;
+                }
+                // Maintain stickiness
+                $clientFirstname = filter_input(INPUT_POST, 'clientFirstname', FILTER_SANITIZE_STRING);
+                $clientLastname = filter_input(INPUT_POST, 'clientLastname', FILTER_SANITIZE_STRING);
+                $clientEmail = filter_input(INPUT_POST, 'clientEmail', FILTER_SANITIZE_EMAIL);
+                break;
 
         default:
             $pageTitle = 'Home';
+            $clientId = $_SESSION['clientData']['clientId'];
+
             include '../view/admin.php';
             break;
             
