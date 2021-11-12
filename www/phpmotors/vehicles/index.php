@@ -75,8 +75,8 @@ switch ($action) {
         $Color = trim(filter_input(INPUT_POST, 'color', FILTER_SANITIZE_STRING));
         $classificationId = trim(filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_STRING));
 
-        if(empty($Make) || empty($Model) || empty($Description) || empty($Image) || empty($Thumbnail) || empty($Price) || empty($Stock) || empty($Color) || empty($classificationId)){
-            $message = '<p>Please provide information for all empty form fields.</p>';
+        if(empty($Make) || empty($Model) || empty($Description) || empty($ImagePath) || empty($Thumbnail) || empty($Price) || empty($Stock) || empty($Color) || empty($classificationId)){
+            $message = "<p> $classificationId  $Make $Model $Description $ImagePath $Thumbnail $Price $Stock $Color Please provide information for all empty form fields.</p>";
             include '../view/add-vehicle.php';
             exit; 
           }
@@ -84,7 +84,94 @@ switch ($action) {
         addVehicle($Make, $Model, $Description, $ImagePath, $Thumbnail, $Price, $Stock, $Color, $classificationId);
         Header('Location: /phpmotors/vehicles/');
 
+    /* * ********************************** 
+    * Get vehicles by classificationId 
+    * Used for starting Update & Delete process 
+    * ********************************** */ 
+    case 'getInventoryItems': 
+          // Get the classificationId 
+          $classificationId = filter_input(INPUT_GET, 'classificationId', FILTER_SANITIZE_NUMBER_INT); 
+          // Fetch the vehicles by classificationId from the DB 
+          $inventoryArray = getInventoryByClassification($classificationId); 
+          // Convert the array to a JSON object and send it back 
+          echo json_encode($inventoryArray); 
+          break;
+
+    case 'mod':
+        $invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
+        $invInfo = getInvItemInfo($invId);
+        if(count($invInfo)<1){
+        $message = 'Sorry, no vehicle information could be found.';
+        }
+        include '../view/vehicle-update.php';
+        exit;
+        break;
+
+    case 'updateVehicle':
+        $classificationId = filter_input(INPUT_POST, 'classificationId', FILTER_SANITIZE_NUMBER_INT);
+        $invMake = trim(filter_input(INPUT_POST, 'make', FILTER_SANITIZE_STRING));
+        $invModel = trim(filter_input(INPUT_POST, 'model', FILTER_SANITIZE_STRING)); 
+        $invDescription = trim(filter_input(INPUT_POST, 'description', FILTER_SANITIZE_STRING));
+        $invImage = trim(filter_input(INPUT_POST, 'imagepath', FILTER_SANITIZE_STRING));
+        $invThumbnail = trim(filter_input(INPUT_POST, 'thumbnailpath', FILTER_SANITIZE_STRING));
+        $invPrice = trim(filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION));
+        $invStock = trim(filter_input(INPUT_POST, 'stock', FILTER_SANITIZE_NUMBER_INT));
+        $invColor = trim(filter_input(INPUT_POST, 'color', FILTER_SANITIZE_STRING));
+        $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+        
+        if (empty($classificationId) || empty($invMake) || empty($invModel) || empty($invDescription) || empty($invImage) || empty($invThumbnail) || empty($invPrice) || empty($invStock) || empty($invColor)) {
+        $message = "<p>Please complete all information for the new item! Double check the classification of the item.</p>";
+        include '../view/vehicle-update.php';
+        exit;
+        }
+        $updateResult = updateVehicle($classificationId, $invMake, $invModel, $invDescription, $invImage, $invThumbnail, $invPrice, $invStock, $invColor, $invId);
+        if ($updateResult) {
+            $message = "<p class='notify'>Congratulations, the $Make $Model was successfully updated.</p>";
+            $_SESSION['message'] = $message;
+            header('location: /phpmotors/vehicles/');
+            exit;
+        } else {
+            $message = "<p>Error. The new vehicle was not Edited.</p>";
+            include '../view/updated-item.php';
+            exit;
+        }
+        break;
+
+    case 'del':
+        $invId = filter_input(INPUT_GET, 'invId', FILTER_VALIDATE_INT);
+        $invInfo = getInvItemInfo($invId);
+        if (count($invInfo) < 1) {
+                $message = 'Sorry, no vehicle information could be found.';
+        }
+        include '../view/vehicle-delete.php';
+        exit;
+        break;
+
+    case 'deleteVehicle':
+        $invMake = filter_input(INPUT_POST, 'invMake', FILTER_SANITIZE_STRING);
+        $invModel = filter_input(INPUT_POST, 'invModel', FILTER_SANITIZE_STRING);
+        $invId = filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT);
+
+        $deleteResult = deleteVehicle($invId);
+        if ($deleteResult) {
+            $message = "<p class='notice'>Congratulations the, $invMake $invModel was	successfully deleted.</p>";
+            $_SESSION['message'] = $message;
+            header('location: /phpmotors/vehicles/');
+            exit;
+        } else {
+            $message = "<p class='notice'>Error: $invMake $invModel was not
+        deleted.</p>";
+            $_SESSION['message'] = $message;
+            header('location: /phpmotors/vehicles/');
+            exit;
+        }
+        break;
+
     default:
+        $classificationList = buildClassificationList($classifications);
+
         include '../view/vehicle-man.php';
         break;
+
+
 }
