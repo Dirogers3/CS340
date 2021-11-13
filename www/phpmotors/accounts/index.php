@@ -62,7 +62,6 @@ session_start();
             // If the hashes don't match create an error
             // and return to the login view
             if(!$hashCheck) {
-                echo '<p class="notice">Hash password misfire</p>';
             $message = '<p class="notice">Please check your password and try again.</p>';
             include '../view/login.php';
             exit;
