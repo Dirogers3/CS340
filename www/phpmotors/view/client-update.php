@@ -26,7 +26,7 @@
                         <label for="clientEmail">Email</label> <br>
                         <input name="clientEmail" id="clientEmail" type="email" <?php if(isset($clientInfo['clientEmail'])){ echo "value='$clientInfo[clientEmail]'"; } elseif(isset($clientEmail)){ echo "value='$clientEmail'";} ?> required> <br>
                         <br>
-                        <input type="submit" id="submit" value="Update">
+                        <input type="submit" value="Update">
                         <input type="hidden" name="action" value="updateAccount">
                         <input type="hidden" name="clientId" value="<?php echo $clientInfo['clientId'];?>">
                 </form><br>
@@ -37,7 +37,7 @@
                 1 captital letter and 1 special character</span>
                         <input name="clientPassword" id="clientPassword" type="password" required pattern="(?=^.{8,}$)(?=.*\d)(?=.*\W+)(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$">
                         <br>
-                        <input type="submit" id="submit" value="Update Password">
+                        <input type="submit" value="Update Password">
                         <input type="hidden" name="action" value="updatePassword">
                         <input type="hidden" name="clientId" value="<?php echo $clientInfo['clientId'];?>">
                 </form>

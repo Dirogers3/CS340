@@ -170,7 +170,7 @@ session_start();
                     header('Location: /phpmotors/accounts/');
                     exit;
                 } else {
-                    $message = "<p>Sorry $clientFirstname, $updateResult account failed to update.</p>";
+                    $message = "<p>Sorry $clientFirstname, account failed to update.</p>";
                     include '../view/client-update.php';
                     exit;
                 }
