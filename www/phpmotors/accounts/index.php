@@ -152,7 +152,7 @@ session_start();
                     include '../view/client-update.php';
                     exit;
                 }
-                if ($emailCheck) {
+                if ($emailCheck && $clientEmail != $_SESSION['clientData']['clientEmail']) {
                     $message = '<p>Email already exists. Please choose a different email.</p>';
                     include '../view/client-update.php';
                     break;
