@@ -309,6 +309,10 @@ max-width: 599px) {
   border-radius: 5px;
 }
 
+#delete-button{ 
+  color:black;
+}
+
 #vehicle-detail-color {
   margin-left: 20px;
 }
@@ -571,6 +575,10 @@ max-width: 599px) {
   border-radius: 5px;
 }
 
+#delete-button{ 
+  color:black;
+}
+
 #vehicle-detail-color {
   margin-left: 20px;
 }
@@ -828,6 +836,10 @@ max-width: 599px) {
   margin-right: 20px;
   background-color: rgb(230, 230, 230);
   border-radius: 5px;
+}
+
+#delete-button{ 
+  color:black;
 }
 
 #vehicle-detail-color {
@@ -1089,6 +1101,10 @@ li a {
   margin-right: 20px;
   background-color: rgb(230, 230, 230);
   border-radius: 5px;
+}
+
+#delete-button{ 
+  color:blue;
 }
 
 #vehicle-detail-color {

@@ -13,7 +13,7 @@
                 </ul>
                     <button class="ownbutton">Own Today</button>
             </div>
-            <img src="./images/vehicles/delorean.jpg" class="carimg" alt="animated image of delorean">
+            <img src="/phpmotors/uploads/images/delorean.jpg" class="carimg" alt="animated image of delorean">
             <div class="attributes">
                 <div class="upgrades">
                 <h3>Delorean Upgrades</h3>
