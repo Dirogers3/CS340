@@ -63,3 +63,14 @@ function checkExistingImage($imgName){
  $stmt->closeCursor();
  return $imageMatch;
 }
+
+function getThumbnailById($invId){
+ $db = phpmotorsConnect();
+ $sql = 'SELECT imgPath FROM images WHERE invId = :invId AND imgPrimary = 0 AND imgPath LIKE "%-tn%"';
+ $stmt = $db->prepare($sql);
+ $stmt->bindValue(':invId', $invId, PDO::PARAM_INT);
+ $stmt->execute();
+ $images = $stmt->fetchAll(PDO::FETCH_ASSOC);
+ $stmt->closeCursor();
+ return $images;
+}

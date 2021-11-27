@@ -36,6 +36,7 @@
         ?>
     <div class="vehicle">
         <?php if(isset($vehicleInfo)){
+        echo $vehicleThumbnailDisplay;
         echo $vehicleInfo;
         } ?>
     </div>

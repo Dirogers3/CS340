@@ -326,6 +326,19 @@ max-width: 599px) {
   color: red;
 }
 
+.vehicle {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#thumbnail-display {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  padding-top: 50px;
+  padding-left: 30px;
+}
+
 }
 
 
@@ -591,6 +604,20 @@ max-width: 599px) {
   font-size: 24px;
   color: red;
 }
+.vehicle {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+#thumbnail-display {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  padding-top: 50px;
+  padding-left: 30px;
+}
+
+
 
   }
 
@@ -616,7 +643,7 @@ max-width: 599px) {
 
 
 
-@media (min-width: 850px) {
+@media (min-width: 1000px) {
 
   html {
     background-image: url('../images/site/small_check.jpg');
@@ -853,6 +880,25 @@ max-width: 599px) {
 #vehicle-detail-price {
   font-size: 24px;
   color: red;
+}
+
+.vehicle {
+
+  display: flex;
+  flex-direction: row;
+}
+
+#thumbnail-display {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  padding-top: 50px;
+  padding-left: 10px;
+}
+
+#thumbnail-display li:hover {
+  transition: 0.4s;
+  transform: scale(1.8);
 }
 }
 
@@ -1092,7 +1138,7 @@ li a {
 }
 
 #vehicle-detail-img {
-  width: 500px;
+  width: 500px !important;
   padding-right: 20px;
 }
 
@@ -1120,6 +1166,22 @@ li a {
   color: red;
 }
 
+.vehicle {
 
+  display: flex;
+  flex-direction: row;
 }
 
+#thumbnail-display {
+  list-style: none;
+
+  padding-top: 50px;
+  padding-left: 10px;
+}
+
+#thumbnail-display li:hover {
+  transition: 0.4s;
+ transform: scale(1.8);
+}
+
+}

@@ -227,3 +227,13 @@ function resizeImage($old_image_path, $new_image_path, $max_width, $max_height) 
   imagedestroy($old_image);
 } // ends resizeImage function
 
+function buildThumbnailDisplay($imageArray) {
+ $id = '<ul id="thumbnail-display">';
+ foreach ($imageArray as $image) {
+  $id .= '<li>';
+  $id .= "<img src='$image[imgPath]' alt='This is a thumbnail of a vehicle'>";
+  $id .= '</li>';
+ }
+ $id .= '</ul>';
+ return $id;
+}

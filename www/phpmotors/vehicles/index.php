@@ -7,6 +7,7 @@ require_once '../library/connections.php'; // database connection file
 require_once '../model/main-model.php'; // model file for main
 require_once '../model/vehicles-model.php'; // model file for vehicles
 require_once '../library/functions.php'; // functions file
+require_once '../model/uploads-model.php'; // model file for uploads
 
 // Get the array of classifications
 $classifications = getClassifications();
@@ -184,7 +185,8 @@ switch ($action) {
             if(!isset($vehicleInfo)) {
                 $message = "<p class='notice'>That vehicle could not be found.</p>";
             } else {
-
+                $thumbnailById = getThumbnailById($invId);
+                $vehicleThumbnailDisplay = buildThumbnailDisplay($thumbnailById);
                 $vehicleInfo = buildVehicleInfo($vehicleInfo);
             }
             include '../view/vehicle-info.php';
