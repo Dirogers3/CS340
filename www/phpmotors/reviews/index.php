@@ -26,6 +26,10 @@ $action = filter_input(INPUT_POST, 'action', FILTER_SANITIZE_STRING);
     }
 
 switch ($action) {
+
+/////////////////////////////////////////////////////////////
+//  ADD A REVIEW
+/////////////////////////////////////////////////////////////
     case 'addReview':
         // filter and store the data
         $reviewText = trim(filter_input(INPUT_POST, 'reviewText', FILTER_SANITIZE_STRING));
@@ -38,8 +42,6 @@ switch ($action) {
             } else {
                 $reviews = '<p>Be the first to write a review!</p>';
             }
-
-        
 
         // check for missing data
         if (empty($reviewText) || empty($invId) || empty($clientId)) {
@@ -74,74 +76,88 @@ switch ($action) {
         header("Location: /phpmotors/vehicles/?action=getVehicleInfo&invId=$invId");
         break;
 
-        case 'editReview':
-            $reviewId = trim(filter_input(INPUT_GET, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
-            $clientId = $_SESSION['clientData']['clientId'];
-            $oneReview = getOneReview($reviewId);
-            $invMake = $oneReview[0]['invMake'];
-            $invModel = $oneReview[0]['invModel'];
-            $invReview = $oneReview[0]['reviewText'];
-            $reviewDate = $oneReview[0]['reviewDate'];
 
+/////////////////////////////////////////////////////////////
+//  UPDATE A REVIEW PAGE
+/////////////////////////////////////////////////////////////
+    case 'editReview':
+        $reviewId = trim(filter_input(INPUT_GET, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
+        $clientId = $_SESSION['clientData']['clientId'];
+        $oneReview = getOneReview($reviewId);
+        $invMake = $oneReview[0]['invMake'];
+        $invModel = $oneReview[0]['invModel'];
+        $invReview = $oneReview[0]['reviewText'];
+        $reviewDate = $oneReview[0]['reviewDate'];
+
+        include '../view/review-edit.php';
+        break;
+
+/////////////////////////////////////////////////////////////
+//  UPDATE A REVIEW
+/////////////////////////////////////////////////////////////
+    case 'updateReview':
+        $reviewId = trim(filter_input(INPUT_POST, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
+        $reviewText = trim(filter_input(INPUT_GET, 'updatedReviewText', FILTER_SANITIZE_STRING));
+        $invId = trim(filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT));
+        $clientId = trim(filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_NUMBER_INT));
+
+
+        $updatedReviewText = trim(filter_input(INPUT_POST, 'updatedReviewText', FILTER_SANITIZE_STRING));
+
+        if(empty($updatedReviewText)) {
+            $_SESSION['updateMessage'] = '<p class="notice">Please provide information for all empty form fields.</p>';
             include '../view/review-edit.php';
-            break;
+            exit;
+        }
+        $updateSuccessful = updateReview($updatedReviewText, $reviewId);
+        
+        if ($updateSuccessful) {
+            $_SESSION['updateMessage'] = "<p class='notice'>Review successfully updated.</p>";
+            header("Location: /phpmotors/accounts");
+            exit();
+        } else {
+            $updateMessage = "<p class='notice'>Review failed to be updated.</p>";
+            header("Location: /phpmotors/accounts");
+            $_SESSION['updateMessage'] = false;
+            exit;
+        }
+        break;
 
-        case 'updateReview':
-            $reviewId = trim(filter_input(INPUT_POST, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
-            $reviewText = trim(filter_input(INPUT_GET, 'updatedReviewText', FILTER_SANITIZE_STRING));
-            $invId = trim(filter_input(INPUT_POST, 'invId', FILTER_SANITIZE_NUMBER_INT));
-            $clientId = trim(filter_input(INPUT_POST, 'clientId', FILTER_SANITIZE_NUMBER_INT));
+
+/////////////////////////////////////////////////////////////
+//  DELETE A REVIEW PAGE
+/////////////////////////////////////////////////////////////
+    case 'getDeleteReview':
+        $reviewId = trim(filter_input(INPUT_GET, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
+        $oneReview = getOneReview($reviewId);
+        $invReview = $oneReview[0]['reviewText'];
+        $reviewDate = $oneReview[0]['reviewDate'];
+        $invMake = $oneReview[0]['invMake'];
+        $invModel = $oneReview[0]['invModel'];
+
+        include '../view/review-delete.php';
+        break;
 
 
-            $updatedReviewText = trim(filter_input(INPUT_POST, 'updatedReviewText', FILTER_SANITIZE_STRING));
+/////////////////////////////////////////////////////////////
+//  DELETE A REVIEW
+/////////////////////////////////////////////////////////////
+    case 'deleteReview':
+        $reviewId = trim(filter_input(INPUT_POST, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
+        $deleteSuccessful = deleteReview($reviewId);
 
-            if(empty($updatedReviewText)) {
-                $_SESSION['updateMessage'] = '<p class="notice">Please provide information for all empty form fields.</p>';
-                include '../view/review-edit.php';
-                exit;
-            }
-            $updateSuccessful = updateReview($updatedReviewText, $reviewId);
-            
-            if ($updateSuccessful) {
-                $_SESSION['updateMessage'] = "<p class='notice'>Review successfully updated.</p>";
-                header("Location: /phpmotors/accounts");
-                exit();
-            } else {
-                $updateMessage = "<p class='notice'>Review failed to be updated.</p>";
-                header("Location: /phpmotors/accounts");
-                $_SESSION['updateMessage'] = false;
-                exit;
-            }
-            
-            break;
-
-        case 'getDeleteReview':
-            $reviewId = trim(filter_input(INPUT_GET, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
-            $oneReview = getOneReview($reviewId);
-            $invReview = $oneReview[0]['reviewText'];
-            $reviewDate = $oneReview[0]['reviewDate'];
-            $invMake = $oneReview[0]['invMake'];
-            $invModel = $oneReview[0]['invModel'];
-
-            include '../view/review-delete.php';
-            break;
-
-        case 'deleteReview':
-            $reviewId = trim(filter_input(INPUT_POST, 'reviewId', FILTER_SANITIZE_NUMBER_INT));
-            $deleteSuccessful = deleteReview($reviewId);
-
-            if ($deleteSuccessful) {
-                $_SESSION['deleteMessage'] = "<p class='notice'>The review deleted succesfully.</p>";
-                header("Location: /phpmotors/accounts");
-                exit();
-            } else {
-                $deleteMessage = "<p class='notice'>Review failed to be deleted.</p>";
-                header("Location: /phpmotors/accounts");
-                $_SESSION['deleteMessage'] = false;
-                exit;
-            }
-            
-            break;
+        if ($deleteSuccessful) {
+            $_SESSION['deleteMessage'] = "<p class='notice'>The review deleted succesfully.</p>";
+            header("Location: /phpmotors/accounts");
+            exit();
+        } else {
+            $deleteMessage = "<p class='notice'>Review failed to be deleted.</p>";
+            header("Location: /phpmotors/accounts");
+            $_SESSION['deleteMessage'] = false;
+            exit;
+        }
+        
+        break;
 
 
     

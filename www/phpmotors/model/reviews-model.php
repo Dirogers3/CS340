@@ -1,7 +1,9 @@
 <?php
 //this is the model for reviews
 
-//Add a review
+/////////////////////////////////////////////////////////////
+//CREATE A REVIEW
+/////////////////////////////////////////////////////////////
 function addReview($reviewText, $invId, $clientId) {
     // Create a connection object using the phpmotors connection function
     $db = phpmotorsConnect();
@@ -27,7 +29,9 @@ function addReview($reviewText, $invId, $clientId) {
     return $rowsChanged;
 }
 
-// Get reviews by invId
+/////////////////////////////////////////////////////////////
+// READ REVIEWS FOR ONE VEHICLE
+/////////////////////////////////////////////////////////////
 function getReviewsByInvId($invId) {
     // Create a connection object using the phpmotors connection function
     $db = phpmotorsConnect();
@@ -49,7 +53,9 @@ function getReviewsByInvId($invId) {
     return $results;
 }
 
-//get reviews by clientId
+/////////////////////////////////////////////////////////////
+// READ REVIEWS FROM ONE CLIENT
+/////////////////////////////////////////////////////////////
 function getReviewsByClientId($clientId) {
     // Create a connection object using the phpmotors connection function
     $db = phpmotorsConnect();
@@ -72,6 +78,9 @@ function getReviewsByClientId($clientId) {
     return $results;
 }
 
+/////////////////////////////////////////////////////////////
+// READ ONE SPECIFIC REVIEW
+/////////////////////////////////////////////////////////////
 function getOneReview($reviewId) {
     // Create a connection object using the phpmotors connection function
     $db = phpmotorsConnect();
@@ -93,6 +102,9 @@ function getOneReview($reviewId) {
     return $results;
 }
 
+/////////////////////////////////////////////////////////////
+//  UPDATE ONE REVIEW
+/////////////////////////////////////////////////////////////
 function updateReview($updatedReviewText, $reviewId) {
     // Create a connection object using the phpmotors connection function
     $db = phpmotorsConnect();
@@ -115,6 +127,10 @@ function updateReview($updatedReviewText, $reviewId) {
     return $rowsChanged;
 }
 
+
+/////////////////////////////////////////////////////////////
+//  DELETE A REVIEW
+/////////////////////////////////////////////////////////////
 function deleteReview($reviewId) {
     // Create a connection object using the phpmotors connection function
     $db = phpmotorsConnect();
