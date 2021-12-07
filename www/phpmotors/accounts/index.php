@@ -12,6 +12,7 @@ session_start();
     // Get the functions library
     require_once '../library/functions.php';
     // Get the array of classifications
+    require_once '../model/reviews-model.php';
 	$classifications = getClassifications();
 
     // var_dump($classifications);
@@ -45,6 +46,8 @@ session_start();
             $clientPassword = filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING);
             $clientEmail = checkEmail($clientEmail);
             $checkPassword = checkPassword($clientPassword);
+                $manageReviews = "sglskjeb;lkjbslekj";
+
             if(empty($clientEmail) || empty($checkPassword)){
                 echo $clientEmail;
                 echo $checkPassword;
@@ -208,6 +211,9 @@ session_start();
         default:
             $pageTitle = 'Home';
             $clientId = $_SESSION['clientData']['clientId'];
+            $clientReviews = getReviewsByClientId($clientId);
+            $manageReviews = buildAdminReviewList($clientReviews);
+            
 
             include '../view/admin.php';
             break;

@@ -8,6 +8,8 @@ require_once '../model/main-model.php'; // model file for main
 require_once '../model/vehicles-model.php'; // model file for vehicles
 require_once '../library/functions.php'; // functions file
 require_once '../model/uploads-model.php'; // model file for uploads
+require_once '../model/reviews-model.php'; // model file for reviews
+
 
 // Get the array of classifications
 $classifications = getClassifications();
@@ -179,17 +181,39 @@ switch ($action) {
             include '../view/classification.php';
             break;
         
+
+        // Displaying the Vehicles details page
         case 'getVehicleInfo':
             $invId = filter_input(INPUT_GET, 'invId', FILTER_SANITIZE_STRING);
-            $vehicleInfo = getVehicleById($invId);
-            if(!isset($vehicleInfo)) {
+            $vehicleInformation = getVehicleById($invId);
+            $reviewList = getReviewsByInvId($invId);
+            if (count($reviewList) >= 1) {
+                $reviews = buildReviewList($reviewList);
+            } else {
+                $reviews = '<p>Be the first to write a review!</p>';
+            }
+
+
+            if (isset($_SESSION['loggedin'])) {
+                $screenName = substr($_SESSION['clientData']['clientFirstname'], 0, 1).$_SESSION['clientData']['clientLastname'];
+                $clientId = $_SESSION['clientData']['clientId'];
+                $successReviewMessage = 0;
+                $successReviewMessage = $_SESSION['successReviewMessage'];
+                $reviewForm = buildReviewForm($screenName, $clientId, $invId, $vehicleInformation, $successReviewMessage);
+            } 
+
+            if(!isset($vehicleInformation)) {
                 $message = "<p class='notice'>That vehicle could not be found.</p>";
             } else {
                 $thumbnailById = getThumbnailById($invId);
                 $vehicleThumbnailDisplay = buildThumbnailDisplay($thumbnailById);
-                $vehicleInfo = buildVehicleInfo($vehicleInfo);
+                $vehicleInfo = buildVehicleInfo($vehicleInformation);
             }
+
+
+
             include '../view/vehicle-info.php';
+            $_SESSION['successReviewMessage'] = false;
             break;
 
     default:

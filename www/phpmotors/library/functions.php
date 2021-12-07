@@ -237,3 +237,61 @@ function buildThumbnailDisplay($imageArray) {
  $id .= '</ul>';
  return $id;
 }
+
+
+function buildReviewForm($screenName, $clientId, $invId, $vehicleInformation, $successReviewMessage) {
+  $id = "<h2>Review the $vehicleInformation[invMake] $vehicleInformation[invModel]</h2>";
+  $id.= "<h3 id='successMessage'>$successReviewMessage</h3>";
+  $id.= '<div class="reviewform">';
+  $id.= '<form action="/phpmotors/reviews/index.php" method="post">';
+  $id.= '<label for="screenName">Screen Name:</label>';
+  $id.= "<input type='text' name='screenName' id='screenName' id='screenNamewidth' value='$screenName' required readonly>";
+  $id.= '<label for="review">Review:</label>';
+  $id.= '<textarea name="reviewText" id="review" cols="30" rows="10"></textarea>';
+  $id.= '<input id="reviewSubmitBtn" type="submit" name="submit" value="Submit Review">';
+  $id.= '<input type="hidden" name="action" value="addReview">';
+  $id.= "<input type='hidden' name='invId' value='$invId'>";
+  $id.= "<input type='hidden' name='clientId' value='$clientId'>";
+  $id.= '</form>';
+  $id.= '</div>';
+  return $id;
+}
+
+// function buildReviewEditForm($clientId, $invId, $invReview) {
+//   $id.= '<div class="reviewform">';
+//   $id.= '<form action="/phpmotors/reviews/index.php" method="post">';
+//   $id.= '<label id="largeText" for="review">Review Text:</label>';
+//   $id.= "<textarea name='updatedReviewText' id='review' cols='10' rows='10'>$invReview</textarea>";
+//   $id.= '<input id="reviewSubmitBtn" type="submit" name="submit" value="Edit Review">';
+//   $id.= '<input type="hidden" name="action" value="updateReview">';
+//   $id.= "<input type='hidden' name='invId' value='$invId'>";
+//   $id.= "<input type='hidden' name='clientId' value='$clientId'>";
+//   $id.= '</form>';
+//   $id.= '</div>';
+//   return $id;
+// }
+
+function buildReviewList($reviewArray) {
+  $id = '<ul id="reviewList" class="reviewList">';
+  foreach ($reviewArray as $review) {
+    $id .= '<li>';
+    $screenName = substr($_SESSION['clientData']['clientFirstname'], 0, 1).$_SESSION['clientData']['clientLastname'];
+    $id .= "<span id='largeText'>$screenName</span><span id='smallText'> wrote on ".date_format(new DateTime($review['reviewDate']), 'd F, Y')."</span>";
+    $id .= "<p id='review'>$review[reviewText]</p>";
+    $id .= '</li>';
+  }
+  $id .= '</ul>';
+  return $id;
+}
+  
+function buildAdminReviewList($reviewArray) {
+  $id = '<ul id="adminReviewList" class="adminReviewList">';
+  foreach ($reviewArray as $review) {
+    $id .= '<li>';
+    $id .= "<span class='adminReviews' >$review[invMake] $review[invModel] (Reviewed on ".date_format(new DateTime($review['reviewDate']), 'd F, Y')."): <a class='blue' href='/phpmotors/reviews/?action=editReview&reviewId=$review[reviewId]'>Edit</a> | <a class='blue' href='/phpmotors/reviews/?action=getDeleteReview&reviewId=$review[reviewId]'>Delete</a></span>";
+    $id .= '</li>';
+  }
+  $id .= '</ul>';
+  return $id;
+}
+

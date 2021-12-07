@@ -16,6 +16,9 @@ if ($_SESSION['loggedin'] != TRUE) {
     echo "<h1>Logged in: $clientFirstname $clientLastname</h1>";
     if(isset($_SESSION['message'])) { echo $_SESSION['message'];} 
     echo "<p>You are logged in.</p>";
+     
+    if(isset($_SESSION['updateMessage'])) { echo $_SESSION['updateMessage'];}
+
     echo "<ul>
             <li>First Name: $clientFirstname</li>
             <li>Last Name: $clientLastname</li>
@@ -35,8 +38,21 @@ if ($_SESSION['loggedin'] != TRUE) {
     }
     ?>
 
+    <h2>Manage Your Product Reviews</h2>
+    <?php 
+    if(isset($_SESSION['deleteMessage'])) { echo $_SESSION['deleteMessage'];};
+        echo $manageReviews;
+        echo $updatedMessage;
+
+    ?>
+
+
 </main>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/phpmotors/modules/footer.php'; ?>
 </body>
 
 </html>
+
+<?php unset($_SESSION['updateMessage']); ?>
+<?php unset($_SESSION['message']); ?>
+<?php unset($_SESSION['deleteMessage']); ?>

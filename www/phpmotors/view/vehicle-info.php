@@ -11,8 +11,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap" rel="stylesheet">
     <title><?php echo $classificationName; ?> vehicles | PHP Motors, Inc.</title>
 </head>
+
 <body>
-    
+
     <div class="logo-bar">
         <img src="/phpmotors/images/site/logo.png" alt="Logo for PHPMotors">
         <?php if (isset($_SESSION['loggedin'])) {
@@ -31,15 +32,37 @@
     <div class="classification">
         <?php if (isset($message)) {echo $message;} if (isset($_SESSION['message'])) {echo $_SESSION['message'];}?>
     </div>
-    <?php if(isset($message)){
-        echo $message; }
-        ?>
+    
     <div class="vehicle">
         <?php if(isset($vehicleInfo)){
         echo $vehicleThumbnailDisplay;
         echo $vehicleInfo;
         } ?>
     </div>
+    <div class="reviews">
+        <h2>Customer Reviews</h2>
+
+            
+
+            
+            <?php 
+            if (isset($message)) {
+                echo $message;
+            }
+            if(isset($_SESSION['loggedin'])) {
+                echo $reviewForm; 
+            } else {
+                echo '<p>You must <a href="/phpmotors/accounts/?action=login">login</a> to write a review.</p>';
+            } 
+            
+
+            if (isset($reviews)) {
+                echo $reviews;
+            }
+
+            ?>
+    </div>
     <?php require '../modules/footer.php'?>
 </body>
+
 </html>
