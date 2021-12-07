@@ -275,7 +275,7 @@ function buildReviewList($reviewArray) {
   $id = '<ul id="reviewList" class="reviewList">';
   foreach ($reviewArray as $review) {
     $id .= '<li>';
-    $screenName = substr($_SESSION['clientData']['clientFirstname'], 0, 1).$_SESSION['clientData']['clientLastname'];
+    $id .= substr($review['clientFirstname'], 0, 1) . $review['clientLastname'];
     $id .= "<span id='largeText'>$screenName</span><span id='smallText'> wrote on ".date_format(new DateTime($review['reviewDate']), 'd F, Y')."</span>";
     $id .= "<p id='review'>$review[reviewText]</p>";
     $id .= '</li>';

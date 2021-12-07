@@ -46,7 +46,6 @@ session_start();
             $clientPassword = filter_input(INPUT_POST, 'clientPassword', FILTER_SANITIZE_STRING);
             $clientEmail = checkEmail($clientEmail);
             $checkPassword = checkPassword($clientPassword);
-                $manageReviews = "sglskjeb;lkjbslekj";
 
             if(empty($clientEmail) || empty($checkPassword)){
                 echo $clientEmail;
